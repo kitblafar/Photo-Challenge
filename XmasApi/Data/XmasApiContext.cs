@@ -9,12 +9,19 @@ namespace XmasApi.Data
 {
     public class XmasApiContext : DbContext
     {
-        public XmasApiContext (DbContextOptions<XmasApiContext> options)
-            : base(options)
+        public string DbPath { get; }
+
+        public XmasApiContext()
         {
+            DbPath = System.IO.Path.Join(Directory.GetCurrentDirectory(), "XmasDB.db");
         }
 
-        public DbSet<XmasApi.Models.XmasItem> XmasItem { get; set; } = default!;
+        // The following configures EF to create a Sqlite database file in the
+        // special "local" folder for your platform.
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+            => options.UseSqlite($"Data Source={DbPath}");
+
+        public DbSet<XmasItem> XmasItem { get; set; } = default!;
     }
 }
 

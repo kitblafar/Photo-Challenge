@@ -1,14 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace XmasApi.Models
+namespace XmasApi.ViewModels
 {
-
-    public class XmasItem
+    public class XmasItemVM
     {
         public long Id { get; set; }
         public string? Name { get; set; }
         public int Challenge { get; set; }
-        public string FilePath { get; set; }
-
+        public IFormFile File { get; set; }
     }
 }

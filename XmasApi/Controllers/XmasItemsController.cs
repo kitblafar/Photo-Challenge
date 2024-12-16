@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using XmasApi.Data;
 using XmasApi.Models;
+using XmasApi.NewFolder;
+using XmasApi.ViewModels;
 
 namespace XmasApi.Controllers
 {
@@ -75,41 +77,47 @@ namespace XmasApi.Controllers
 
             return NoContent();
         }
-   
+
         // POST: api/XmasItems
         [HttpPost]
-        public async Task<ActionResult<XmasItem>> PostXmasItem([FromForm] XmasItem xmasItem)
+        public async Task<ActionResult<XmasItemVM>> PostXmasItem([FromForm] XmasItemVM xmasItemVM)
         {
-
-            _context.XmasItem.Add(xmasItem);
-
-            await _context.SaveChangesAsync();
-
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Photos", xmasItem.Name);
-
-            bool exists = Directory.Exists(filePath);
-
-            Console.WriteLine("FILE");
-
-            Console.WriteLine(filePath);
-
-            if (!exists)
-                Directory.CreateDirectory(filePath);
-            
-            var itemFilePath = Path.Combine(filePath,xmasItem.Challenge.ToString())+Path.GetExtension(xmasItem.File.FileName);
-
-            Console.WriteLine(itemFilePath);
-
-            if (xmasItem.File.Length > 0)
+            if (xmasItemVM.File.Length > 0 && FormFileExtensions.IsImage(xmasItemVM.File))
             {
-                using (var stream = System.IO.File.Create(itemFilePath))
+                XmasItem xmasItem = new XmasItem();
+
+                xmasItem.Id = xmasItemVM.Id;
+                xmasItem.Name = xmasItemVM.Name;
+                xmasItem.Challenge = xmasItemVM.Challenge;
+                xmasItem.FilePath = Path.Combine(xmasItem.Name, xmasItem.Challenge.ToString()) + Path.GetExtension(xmasItemVM.File.FileName);
+
+                _context.XmasItem.Add(xmasItem);
+
+                await _context.SaveChangesAsync();
+
+                bool exists = Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "Photos", xmasItem.Name));
+
+                if (!exists)
+                    Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "Photos", xmasItem.Name));
+
+
+                Console.WriteLine(xmasItem.FilePath);
+
+
+                using (var stream = System.IO.File.Create(Path.Combine(Directory.GetCurrentDirectory(), "Photos", xmasItem.FilePath)))
                 {
-                    await xmasItem.File.CopyToAsync(stream);
+                    await xmasItemVM.File.CopyToAsync(stream);
                 }
+
+                return CreatedAtAction("GetXmasItem", new { id = xmasItemVM.Id }, xmasItemVM);
+            }
+            else
+            {
+                return BadRequest("Please send an image.");
             }
 
-            return CreatedAtAction("GetXmasItem", new { id = xmasItem.Id }, xmasItem);
         }
+        
 
         // DELETE: api/XmasItems/5
         [HttpDelete("{id}")]
