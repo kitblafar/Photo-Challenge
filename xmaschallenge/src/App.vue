@@ -1,16 +1,36 @@
-
 <template>
 
   <header>
-    <img alt="xmas logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
 
-    <div class="wrapper">
-      <h1 class="red">Xmas Photo Challenge</h1>
-      <nav>
-        <RouterLink to="/">Submit Your Photo</RouterLink>
-        <RouterLink to="/view">View Your Photos</RouterLink>
+    <section class="hero is-danger">
+      <div class="hero-body">
+        <p class="title">Christmas Photo Challenge</p>
+        <p class="subtitle">Catch them all for great prizes</p>
+      </div>
+    </section>
+
+    <section>
+      <nav class="navbar is-success" role="navigation" aria-label="main navigation">
+
+        <div class="navbar-brand">
+          <a class="navbar-item" href="https://kittyfarren.dev/xmaschallenge">
+            <img width="30" height="300" fill="none" src="./assets/logo.svg"></img>
+          </a>
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+            data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+
+        <div class="navbar-menu">
+          <RouterLink to="/" class="navbar-item">Submit Your Photo</RouterLink>
+          <RouterLink to="/view" class="navbar-item">View Your Photos</RouterLink>
+        </div>
       </nav>
-    </div>
+    </section>
   </header>
 
   <main>
@@ -22,6 +42,8 @@
 <style scoped>
 header {
   line-height: 1.5;
+  flex-direction: column;
+
 }
 
 .logo {
@@ -32,19 +54,11 @@ header {
 @media (min-width: 1024px) {
   header {
     display: flex;
-    place-items: center;
     padding-right: calc(var(--section-gap) / 2);
   }
 
   .logo {
     margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    flex-direction: column;
-    place-items: flex-start;
-    flex-wrap: wrap;
   }
 }
 </style>
