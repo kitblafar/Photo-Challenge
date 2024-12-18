@@ -7,8 +7,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<XmasApiContext>();
 
-//builder.Services.AddDbContext<XmasApiContext>(opt =>
-//    opt.UseInMemoryDatabase("XmasItems"));
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("https://kittyfarren.dev",
+                                              "http://10.75.12.141:5173/",
+                                              "http://10.75.12.141:5173/",
+                                              "http://10.75.12.141:3000/api/xmasapi");
+                      });
+});
 
 // Add services to the container.
 
@@ -18,11 +29,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
     app.UseSwagger();
     app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthorization();
 

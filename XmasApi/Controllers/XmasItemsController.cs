@@ -33,7 +33,7 @@ namespace XmasApi.Controllers
         }
 
         // GET: api/XmasItems/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<XmasItem>> GetXmasItem(long id)
         {
             var xmasItem = await _context.XmasItem.FindAsync(id);
@@ -44,6 +44,17 @@ namespace XmasApi.Controllers
             }
 
             return xmasItem;
+        }
+
+
+        // GET: api/XmasItems/"hello"
+        [HttpGet("{name}")]
+        public async Task<List<XmasItem>> GetXmasItem(string name)
+        {
+            var allXmasItems = _context.XmasItem.Where(xmasItem => xmasItem.Name == name).ToList();
+
+            return allXmasItems;
+
         }
 
 
@@ -108,6 +119,8 @@ namespace XmasApi.Controllers
                 {
                     await xmasItemVM.File.CopyToAsync(stream);
                 }
+
+                Response.Headers.Add("Access-Control-Allow-Origin", "*");
 
                 return CreatedAtAction("GetXmasItem", new { id = xmasItemVM.Id }, xmasItemVM);
             }

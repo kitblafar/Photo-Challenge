@@ -1,14 +1,5 @@
 {
   "dependencies": {
-    "postgresql1": {
-      "ignored": "true",
-      "type": "postgresql"
-    },
-    "mssql1": {
-      "ignored": "true",
-      "type": "mssql",
-      "connectionId": "ConnectionStrings:DefaultConnection"
-    },
     "sqlite1": {
       "ignored": "true",
       "type": "sqlite"

@@ -1,9 +1,54 @@
 <script>
+import axios from 'axios'
+
 export default {
   methods: {
+    fileStringUpdate(){
+      document.getElementById('selectedFileString').innerText = document.getElementById('image').files[0].name;
+    },
     goToAbout() {
       this.$router.push('/view')
     },
+
+    async submit() {
+
+      document.getElementById('failNotify').style.display = "none";
+      document.getElementById('successNotify').style.display = "none";
+
+      const form = document.getElementById('photoEntryForm')
+      const bar = document.getElementById('progressBar');
+      bar.value = "10";
+
+      form.addEventListener('submit', (e) => {
+
+        bar.value = "20";
+        //to prevent reload 
+        e.preventDefault();
+        //creates a multipart/form-data object 
+        let data = new FormData(form);
+        bar.value = "30";
+
+        axios({
+          method: "post",
+          url: "http://10.75.12.141:3000/api/xmasapi",
+          data: data,
+          withCredentials: false,
+        })
+          .then((res) => {
+
+            bar.value = "100";
+            document.getElementById('successNotify').style.display = "block";
+            console.log(res);
+          })
+          .catch((err) => {
+            bar.value = "100";
+            document.getElementById('failNotify').style.display = "block";
+            throw err;
+          });
+      });
+
+
+    }
   },
 }
 </script>
@@ -28,8 +73,7 @@ export default {
       </ul>
     </div>
 
-    <form class="form" action="https://localhost:7141/api/xmasapi" method="post" enctype="multipart/form-data"
-      target="hiddenFrame">
+    <form class="form" id="photoEntryForm">
 
       <div class="field">
         <label class="label" for="fname">Name:</label>
@@ -77,28 +121,47 @@ export default {
       <label class="label" for="imageUpload">Choose an image to upload:</label>
       <div class="file has-name">
         <label class="file-label">
-          <input class="file-input" type="file" name="resume" />
+          <input class="file-input" type="file" id="image" name="file" @change="fileStringUpdate" />
           <span class="file-cta">
             <span class="file-icon">
               <i class="fas fa-upload"></i>
             </span>
             <span class="file-label"> Choose an image… </span>
           </span>
-          <span class="file-name"> Screen Shot 2017-07-29 at 15.54.25.png </span>
+          <span id="selectedFileString" class="file-name"> Please choose a file... </span>
         </label>
       </div>
 
       <div class="control">
-        <button class="button is-danger">Submit</button>
+        <button class="button is-danger" value="save" @click="submit">Submit</button>
       </div>
 
     </form>
 
     <div class="block" />
-    
-    <progress class="progress is-danger" value="0" max="100">
-      90%
+    <progress class="progress is-danger" id="progressBar" value="0" max="100">
     </progress>
+
+    <div class="block" id="failNotify" style="display:none">
+      <div class="block ">
+      </div>
+      <div class="block">
+        <div class="notification is-danger">
+          <button class="delete"></button>
+          Photo didn't submit properly. Please check your connection and that you filled out the whole form.
+        </div>
+      </div>
+    </div>
+    <div class="block" id="successNotify" style="display:none">
+      <div class="block ">
+      </div>
+      <div class="block">
+        <div class="notification is-success">
+          <button class="delete"></button>
+          Photo submitted successfully.
+        </div>
+      </div>
+    </div>
 
   </div>
 
