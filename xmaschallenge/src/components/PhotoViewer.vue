@@ -1,7 +1,6 @@
 <script>
 import axios from 'axios'
-
-import bulmaCarousel from 'bulma-carousel/dist/js/bulma-carousel.min.js';
+import bulmaCarousel from "bulma-carousel/src/js/index.js";
 
 bulmaCarousel.attach('#carousel-demo', {
     slidesToScroll: 1,
@@ -18,23 +17,21 @@ export default {
 </script>
 
 <template>
-    <section class="section">
-        <div class="container">
-
-            <!-- Start Carousel -->
-            <div id="carousel-demo" class="carousel" slides-to-scroll="1">
-
-                <div class="item-1">
-                  hello
-                </div>
-
-                <div class="item-2">
-                    hello2
-                </div>
-            </div>
-            <!-- End Carousel -->
+  <section class="section">
+    <div class="container">
+      <!-- Start Carousel -->
+      <div id="carousel-demo" class="carousel">
+        <div class="item-1">
+HI        </div>
+        <div class="item-2">
+HI        </div>
+        <div class="item-3">
+          <!-- Slide Content -->
         </div>
-    </section>
+      </div>
+      <!-- End Carousel -->
+    </div>
+  </section>
 
 </template>
 

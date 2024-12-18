@@ -16,8 +16,10 @@ builder.Services.AddCors(options =>
                       {
                           policy.WithOrigins("https://kittyfarren.dev",
                                               "http://10.75.12.141:5173/",
-                                              "http://10.75.12.141:5173/",
-                                              "http://10.75.12.141:3000/api/xmasapi");
+                                              "http://127.0.0.1:3000/",
+                                              "http://127.0.0.1:5173",
+                                              "http://0.0.0.0:3000/",
+                                              "http://192.168.0.58:5173/");
                       });
 });
 

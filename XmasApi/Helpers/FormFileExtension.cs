@@ -18,6 +18,7 @@ namespace XmasApi.NewFolder
                             postedFile.ContentType.ToLower() != "image/x-png" &&
                             postedFile.ContentType.ToLower() != "image/png")
                 {
+                    Console.WriteLine("1");
                     return false;
                 }
 
@@ -29,6 +30,7 @@ namespace XmasApi.NewFolder
                     && Path.GetExtension(postedFile.FileName).ToLower() != ".gif"
                     && Path.GetExtension(postedFile.FileName).ToLower() != ".jpeg")
                 {
+                    Console.WriteLine("2");
                     return false;
                 }
 
@@ -39,6 +41,8 @@ namespace XmasApi.NewFolder
                 {
                     if (!postedFile.OpenReadStream().CanRead)
                     {
+
+                    Console.WriteLine("3");
                         return false;
                     }
                     //------------------------------------------
@@ -46,6 +50,8 @@ namespace XmasApi.NewFolder
                     //------------------------------------------ 
                     if (postedFile.Length < ImageMinimumBytes)
                     {
+
+                    Console.WriteLine("4");
                         return false;
                     }
 
@@ -55,32 +61,16 @@ namespace XmasApi.NewFolder
                     if (Regex.IsMatch(content, @"<script|<html|<head|<title|<body|<pre|<table|<a\s+href|<img|<plaintext|<cross\-domain\-policy",
                         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline))
                     {
+
+                    Console.WriteLine("5");
                         return false;
                     }
                 }
                 catch (Exception)
                 {
-                    return false;
-                }
 
-                //-------------------------------------------
-                //  Try to instantiate new Bitmap, if .NET will throw exception
-                //  we can assume that it's not a valid image
-                //-------------------------------------------
-
-                try
-                {
-                    using (var bitmap = new System.Drawing.Bitmap(postedFile.OpenReadStream()))
-                    {
-                    }
-                }
-                catch (Exception)
-                {
+                    Console.WriteLine("6");
                     return false;
-                }
-                finally
-                {
-                    postedFile.OpenReadStream().Position = 0;
                 }
 
                 return true;

@@ -51,7 +51,9 @@ namespace XmasApi.Controllers
         [HttpGet("{name}")]
         public async Task<List<XmasItem>> GetXmasItem(string name)
         {
+
             var allXmasItems = _context.XmasItem.Where(xmasItem => xmasItem.Name == name).ToList();
+
 
             return allXmasItems;
 

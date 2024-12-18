@@ -30,7 +30,7 @@ export default {
 
         axios({
           method: "post",
-          url: "http://10.75.12.141:3000/api/xmasapi",
+          url: "http://127.0.0.1:3000/api/xmasapi",
           data: data,
           withCredentials: false,
         })
