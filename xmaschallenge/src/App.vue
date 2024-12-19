@@ -1,21 +1,33 @@
 <script>
-
 // delete button pressed
 document.addEventListener('DOMContentLoaded', () => {
   (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
     const $notification = $delete.parentNode;
-
     $delete.addEventListener('click', () => {
       $notification.parentNode.removeChild($notification);
     });
   });
 });
+
+export default {
+  data() {
+    return {
+      activator: false,
+    }
+  },
+  methods: {
+    makeBurger() {
+      console.log("making burgers")
+      this.activator = !this.activator
+      console.log(this.activator)
+      return this.activator
+    }
+  }
+}
 </script>
 
 <template>
-
   <header>
-
     <section class="hero is-danger">
       <div class="hero-body">
         <p class="title">Christmas Photo Challenge</p>
@@ -24,22 +36,21 @@ document.addEventListener('DOMContentLoaded', () => {
     </section>
 
     <section>
-      <nav class="navbar is-success" role="navigation" aria-label="main navigation">
-
+      <nav class="navbar is-success" id="main nav-bar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
           <a class="navbar-item" href="https://kittyfarren.dev/xmaschallenge">
             <img width="30" height="300" fill="none" src="./assets/logo.svg"></img>
           </a>
-          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
-            data-target="navbarBasicExample">
+          <button id="nav-toggle" :class="{ 'is-active': activator }" class="navbar-burger" @click="makeBurger"
+            aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
-          </a>
+          </button>
         </div>
 
-        <div class="navbar-menu">
+        <div class="navbar-menu" :class="{ 'is-active': activator }">
           <RouterLink to="/" class="navbar-item">Submit Your Photo</RouterLink>
           <RouterLink to="/view" class="navbar-item">View Your Photos</RouterLink>
         </div>
@@ -48,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
   </header>
 
   <main>
-    <RouterView />
+    <RouterView :images="images"/>
   </main>
 
 </template>

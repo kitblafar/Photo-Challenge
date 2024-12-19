@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace XmasApi.ViewModels
+namespace XmasApi.Models
 {
     public class XmasItemVM
     {

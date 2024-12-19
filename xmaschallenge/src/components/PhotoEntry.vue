@@ -2,8 +2,12 @@
 import axios from 'axios'
 
 export default {
+  challengeStrings: {
+    type: Array,
+    default: ["error"]
+  },
   methods: {
-    fileStringUpdate(){
+    fileStringUpdate() {
       document.getElementById('selectedFileString').innerText = document.getElementById('image').files[0].name;
     },
     goToAbout() {
@@ -30,7 +34,7 @@ export default {
 
         axios({
           method: "post",
-          url: "http://127.0.0.1:3000/api/xmasapi",
+          url: "http://localhost:3000/api/xmasapi/",
           data: data,
           withCredentials: false,
         })
@@ -51,6 +55,15 @@ export default {
     }
   },
 }
+</script>
+
+<script setup>
+var dropDown = document.getElementById("challenge");
+
+for (let i = 0; i < challengeStrings.length; i++) {
+  dropDown.options[dropDown.options.length] = new Option(i.toString() + "- " + challengeStrings[i], i + 1);
+}
+
 </script>
 
 <template>

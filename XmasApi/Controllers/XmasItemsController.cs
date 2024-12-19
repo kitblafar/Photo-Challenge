@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.IO;
+using System.Net;
+using System.Net.NetworkInformation;
 using XmasApi.Data;
 using XmasApi.Models;
 using XmasApi.NewFolder;
 using XmasApi.ViewModels;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace XmasApi.Controllers
 {
@@ -46,22 +44,54 @@ namespace XmasApi.Controllers
             return xmasItem;
         }
 
+        [Route("/error")]
+        protected IActionResult HandleError() =>
+            Problem();
+
 
         // GET: api/XmasItems/"hello"
+        // returns all databse entries for that name
         [HttpGet("{name}")]
-        public async Task<List<XmasItem>> GetXmasItem(string name)
+        public async Task<List<XmasItemByte>> GetXmasItem(string name)
         {
 
             var allXmasItems = _context.XmasItem.Where(xmasItem => xmasItem.Name == name).ToList();
 
+            List<XmasItemByte> XmasItemBytes = new List<XmasItemByte>();
 
-            return allXmasItems;
+            // if the entry exists in the database but not in the photos directory
+            if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "Photos", name)))
+            {
+                throw new Exception("Name not found");
+            }
+
+            foreach (var item in allXmasItems)
+            {
+                XmasItemByte XmasItemByte = new XmasItemByte();
+                XmasItemByte.Id = item.Id;
+                XmasItemByte.Name = item.Name;
+                XmasItemByte.Challenge = item.Challenge;
+
+                string fullPath = Path.Combine(Directory.GetCurrentDirectory(), "Photos", item.FilePath);
+
+                // if the entry exists in the database but not in the photos directory just leave it
+                // (perhaps sub in some not found image here)
+                if (!System.IO.File.Exists(fullPath))
+                {
+                    continue;
+                }
+
+                XmasItemByte.Image = System.IO.File.ReadAllBytes(fullPath);
+
+                XmasItemBytes.Add(XmasItemByte);
+            }
+
+            return XmasItemBytes;
 
         }
 
 
         // PUT: api/XmasItems/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutXmasItem(long id, XmasItem xmasItem)
         {
@@ -122,7 +152,7 @@ namespace XmasApi.Controllers
                     await xmasItemVM.File.CopyToAsync(stream);
                 }
 
-                Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                Response.Headers.Append("Access-Control-Allow-Origin", "*");
 
                 return CreatedAtAction("GetXmasItem", new { id = xmasItemVM.Id }, xmasItemVM);
             }
@@ -132,7 +162,7 @@ namespace XmasApi.Controllers
             }
 
         }
-        
+
 
         // DELETE: api/XmasItems/5
         [HttpDelete("{id}")]
