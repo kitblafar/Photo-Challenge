@@ -1,11 +1,3 @@
-import { createMemoryHistory, createRouter } from 'vue-router'
-
-import PhotoEntry from './components/PhotoEntry.vue'
-import PhotoViewer from './components/PhotoViewer.vue'
-// import PrizeView from 'components/PhotoViewer.vue'
-import HostArea from './components/HostArea.vue';
-import Login from  './components/Login.vue';
-
 const challengeStrings = new Array("Take a picture with a principal engineer",
     "Wear on piece of a non-players clothing",
     "Take a picture standing on a table",
@@ -30,33 +22,3 @@ const challengeStrings = new Array("Take a picture with a principal engineer",
     "Drink a drink with no hands",
     "Be slapped by a non-player",
     "Do the highest jump");
-
-const routes = [
-    {
-        path: '/',
-        component: PhotoEntry,
-        props:{strings: challengeStrings},
-    },
-    {
-        path: '/view',
-        component: PhotoViewer,
-        props:{strings: challengeStrings},
-    },
-    {
-        path: '/host',
-        component: HostArea,
-        props:{strings: challengeStrings},
-    },
-    {
-        path: '/login',
-        component: Login,
-        props:{strings: challengeStrings},
-    },
-]
-
-const router = createRouter({
-    history: createMemoryHistory(),
-    routes,
-})
-
-export default router

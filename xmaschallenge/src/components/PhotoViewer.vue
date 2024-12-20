@@ -21,16 +21,11 @@ for (let i = 1; i < 25; i++) {
 }
 
 export default {
+  props: ['strings'],
   data() {
     return {
       componentKey: 0,
     };
-  },
-  props: {
-    challengeStrings: {
-      type: Array,
-      default: ["error"]
-    }
   },
   methods: {
     forceRerender() {
@@ -68,6 +63,46 @@ export default {
 </script>
 
 <template>
+  <vue-particles id="tsparticles" @particles-loaded="particlesLoaded" :options="{
+    particles: {
+      color: {
+        value: '#ffffff'
+      },
+      move: {
+        direction: 'bottom',
+        enable: true,
+        outModes: 'out',
+        speed: 2
+      },
+      number: {
+        density: {
+          enable: true,
+          area: 800
+        },
+        value: 400
+      },
+      opacity: {
+        value: 0.7
+      },
+      shape: {
+        type: 'circle'
+      },
+      size: {
+        value: 10
+      },
+      wobble: {
+        enable: true,
+        distance: 10,
+        speed: 10
+      },
+      zIndex: {
+        value: {
+          min: 0,
+          max: 100
+        }
+      }
+    }
+  }" />
   <h1 class="title">View Your Photos</h1>
 
 
@@ -81,7 +116,7 @@ export default {
     <button class="button is-danger" value="save" @click="getPhotos">Get Photos</button>
   </div>
 
-  <carousel :key="componentKey" :images="images" />
+  <carousel :key="componentKey" :images="images" :strings="strings"/>
 
   <div class="block" id="failNotify" style="display:none">
     <div class="block ">

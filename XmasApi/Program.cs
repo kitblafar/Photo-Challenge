@@ -1,9 +1,9 @@
 ﻿using System.Security.Authentication.ExtendedProtection;
-using XmasApi.Data;
+using XmasAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<XmasApiContext>();
+builder.Services.AddDbContext<XmasAPIContext>();
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 

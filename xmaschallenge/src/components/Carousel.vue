@@ -2,7 +2,7 @@
     <div class="card-carousel">
         <div class="card-img">
             <h2 class="title" style="text-align: center;">Challenge #{{ (this.activeImage + 1).toString() }}</h2>
-            <h4 class="subtitle" style="text-align: center;">Brief: {{ (this.activeImage + 1).toString() }}</h4>
+            <h4 class="subtitle" style="text-align: center;">Brief: {{ strings[this.activeImage] }}</h4>
                 <img :src="currentImage" alt="Challenge #{{this.activeImage.toString()}} image.">
                 <div class="actions">
                     <span @click="prevImage" class="prev">
@@ -26,21 +26,12 @@
 
 export default {
     name: 'Carousel',
-    props: ['images'],
+    props: ['images', 'strings'],
     data() {
         return {
 
             //Index of the active image
-            activeImage: 0,
-            //If the timer is stopped e.g. when hovering over the carousel
-            stopSlider: false,
-            //Hold the time left until changing to the next image
-            timeLeft: 0,
-            //Hold the interval so we can clear it when needed
-            timerInterval: null,
-            //Every 10ms decrease the timeLeft
-            countdownInterval: 10
-
+            activeImage: 0
         }
     },
     computed: {

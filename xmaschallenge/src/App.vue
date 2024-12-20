@@ -51,6 +51,7 @@ export default {
         </div>
 
         <div class="navbar-menu" :class="{ 'is-active': activator }">
+          <RouterLink to="/login" class="navbar-item">Host Area</RouterLink>
           <RouterLink to="/" class="navbar-item">Submit Your Photo</RouterLink>
           <RouterLink to="/view" class="navbar-item">View Your Photos</RouterLink>
         </div>
@@ -59,7 +60,7 @@ export default {
   </header>
 
   <main>
-    <RouterView :images="images"/>
+    <RouterView/>
   </main>
 
 </template>

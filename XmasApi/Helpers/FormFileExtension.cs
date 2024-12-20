@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace XmasApi.NewFolder
+namespace XmasAPI.Helpers
 {
         public static class FormFileExtensions
         {

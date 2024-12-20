@@ -2,10 +2,12 @@
 import axios from 'axios'
 
 export default {
-  challengeStrings: {
-    type: Array,
-    default: ["error"]
-  },
+
+  name: 'PhotoViewer',
+  props: ['strings'],
+  // setup(props) {
+  //   console.log(props.strings);
+  // },
   methods: {
     fileStringUpdate() {
       document.getElementById('selectedFileString').innerText = document.getElementById('image').files[0].name;
@@ -13,7 +15,6 @@ export default {
     goToAbout() {
       this.$router.push('/view')
     },
-
     async submit() {
 
       document.getElementById('failNotify').style.display = "none";
@@ -34,7 +35,7 @@ export default {
 
         axios({
           method: "post",
-          url: "http://localhost:3000/api/xmasapi/",
+          url: "http://localhost:3000/api/xmasapi/imagesubmit",
           data: data,
           withCredentials: false,
         })
@@ -57,16 +58,47 @@ export default {
 }
 </script>
 
-<script setup>
-var dropDown = document.getElementById("challenge");
-
-for (let i = 0; i < challengeStrings.length; i++) {
-  dropDown.options[dropDown.options.length] = new Option(i.toString() + "- " + challengeStrings[i], i + 1);
-}
-
-</script>
-
 <template>
+    <vue-particles id="tsparticles" @particles-loaded="particlesLoaded" :options="{
+      particles: {
+        color: {
+          value: '#ffffff'
+        },
+        move: {
+          direction: 'bottom',
+          enable: true,
+          outModes: 'out',
+          speed: 2
+        },
+        number: {
+          density: {
+            enable: true,
+            area: 800
+          },
+          value: 400
+        },
+        opacity: {
+          value: 0.7
+        },
+        shape: {
+          type: 'circle'
+        },
+        size: {
+          value: 10
+        },
+        wobble: {
+          enable: true,
+          distance: 10,
+          speed: 10
+        },
+        zIndex: {
+          value: {
+            min: 0,
+            max: 100
+          }
+        }
+      }
+    }" />
   <div class="section">
     <div class="content">
       <h1 class="title">Submit your Photo</h1>
@@ -100,32 +132,9 @@ for (let i = 0; i < challengeStrings.length; i++) {
         <div class="control">
           <div class="select is-danger">
             <select id="challenge" name="challenge">
-              <option value="1">1- Take a picture with a principal engineer</option>
-              <option value="2">2- Wear on piece of a non-players clothing</option>
-              <option value="3">3- Take a picture standing on a table</option>
-              <option value="4">4- Drink a Water Round</option>
-              <option value="4">5- Re-enact a panel from The Man Hotter than the Sun™</option>
-              <option value="4">6- Show somebody the Bawdy Jug™</option>
-              <option value="4">7- Do a vault in the castle vaults (jump over something)</option>
-              <option value="4">8- Tap a can in the tap and can (no can can be tapped twice)</option>
-              <option value="4">9- Shake hands with a Salopian in the Salopian (the Salopian can’t be player)</option>
-              <option value="4">10- Get a beer with lots of head in the Kings head</option>
-              <option value="4">11- Be a puritan in Cromwell’s tap house (Don’t laugh for the whole time in the pub)
+              <option v-for="(challenge, index) in strings" :value="index">
+                {{ index + 1 }} - {{ challenge }}
               </option>
-              <option value="4">12- Take a picture with a farmer in the house of grain (the farmer can’t be player)
-              </option>
-              <option value="4">13- Balance a spoon on your face at either Wetherspoon</option>
-              <option value="4">14- Gallop like a horse in the Nag’s head</option>
-              <option value="4">15- Swap a shoe with a non player</option>
-              <option value="4">16- Host a dance off with a non player</option>
-              <option value="4">17- Spell out Nidec with poses across 5 different pubs (HOTTOGO/YMCA Style)</option>
-              <option value="4">18- Steal non players hat and take a picture wearing it</option>
-              <option value="4">19- Do a head or hand stand</option>
-              <option value="4">20- Do a shoey with a Fosters, Aussie style.</option>
-              <option value="4">21- Take a picture with a Kebab Man (only if he called you bossman)</option>
-              <option value="4">22- Drink a drink with no hands</option>
-              <option value="4">23- Be slapped by a non-player</option>
-              <option value="4">24- Do the highest jump</option>
             </select>
           </div>
         </div>

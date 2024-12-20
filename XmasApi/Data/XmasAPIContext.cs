@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using XmasApi.Models;
+using XmasAPI.Models;
 
-namespace XmasApi.Data
+namespace XmasAPI.Data
 {
-    public class XmasApiContext : DbContext
+    public class XmasAPIContext : DbContext
     {
         public string DbPath { get; }
 
-        public XmasApiContext()
+        public XmasAPIContext()
         {
             DbPath = System.IO.Path.Join(Directory.GetCurrentDirectory(), "XmasDB.db");
         }
