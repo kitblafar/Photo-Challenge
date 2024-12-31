@@ -1,0 +1,19 @@
+@use "bulma";
+$section-padding: 2.5em, 1em;
+
+.tabs li.is-active a {
+  border-bottom-color: var(--bulma-success);
+  color: var(--bulma-success);
+}
+
+
+h1 {
+  font-weight: 500;
+  font-size: 2.6rem;
+  position: relative;
+  top: -10px;
+}
+
+h3 {
+  font-size: 1.2rem;
+}
