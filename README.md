@@ -62,7 +62,7 @@ dotnet run http
 
 #### 4️⃣ Access the Game 🏃‍♀️
 
-Once both the frontend and backend are running, open your browser and go to http://localhost:8080 to play the game! 🎮
+Once both the frontend and backend are running, open your browser and go to http://localhost:3000 to play the game! 🎮
 🎨 How to Play
   - Submit: Submit photos to the main challenge and the special catagories under your name
   - View: View your photos and others in the viewing area by typing their name. You can check if your photos are approved here.
