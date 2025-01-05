@@ -5,7 +5,7 @@
 namespace PhotoChallengeApi.Migrations
 {
     /// <inheritdoc />
-    public partial class PhotoChallenge : Migration
+    public partial class AddAll : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

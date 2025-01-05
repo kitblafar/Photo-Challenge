@@ -10,6 +10,7 @@ using PhotoChallengeAPI.Data;
 using PhotoChallengeAPI.Models;
 using PhotoChallengeAPI.Helpers;
 using PhotoChallengeAPI.ViewModels;
+using System.Linq;
 
 namespace PhotoChallengeAPI.Controllers
 {
@@ -234,12 +235,25 @@ namespace PhotoChallengeAPI.Controllers
 
         #region POST
 
-        [HttpPost]
-        public bool Authenticate(string authenticate)
+        [HttpPost("Authenticate/Host")]
+        public bool AuthenticateHost(Auth authenticate)
         {
-
             // just a single password hash for now
-            if (authenticate == "8e5b57b7b620900e13dd84aae2390dea0eea199aa7f8d34f47b72824276e93f7")
+            if (authenticate.password == "8e5b57b7b620900e13dd84aae2390dea0eea199aa7f8d34f47b72824276e93f7")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        [HttpPost("Authenticate")]
+        public bool Authenticate(Auth authenticate)
+        {
+            // just a single password hash for now 'BarCrawl2024'
+            if (authenticate.password == "682ac8eec9c50544a4833b71cc2db45a0c12498a1f34a6700431f108b6260abf")
             {
                 return true;
             }
@@ -406,7 +420,6 @@ namespace PhotoChallengeAPI.Controllers
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchPhotoItem(ApprovalItem photoApproval)
         {
-            Console.WriteLine("patching");
 
             var photoItem = _context.PhotoItem.Where(photoItem => photoItem.Id == photoApproval.Id).ToList()[0];
 
@@ -432,6 +445,80 @@ namespace PhotoChallengeAPI.Controllers
             }
 
             return NoContent();
+        }
+
+        // PATCH: api/PhotoItems/Special/5
+        [HttpPatch("Special/{id}")]
+        public async Task<IActionResult> PatchPhotoSpecialItem(VoteItem voteItem)
+        {
+            Console.WriteLine("patching special");
+            Console.WriteLine(voteItem.Id);
+            Console.WriteLine(voteItem.Name);
+
+            // remove voter from all votes they may have given
+            var previousVotes = _context.PhotoSpecialItem.Where(photoSpecialItem => photoSpecialItem.Voters.Contains(voteItem.Name)).ToList();
+            Console.WriteLine("all previous votes: ");
+            Console.WriteLine(previousVotes);
+
+            foreach (var item in previousVotes)
+            {
+            Console.WriteLine("Removing vote from item: ");
+            Console.WriteLine(item);
+                item.Voters.Remove(voteItem.Name);
+                item.Votes--;
+                _context.Entry(item).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PhotoItemExists(item.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+            }
+
+
+            var photoSpecialItem = _context.PhotoSpecialItem.Where(photoSpecialItem => photoSpecialItem.Id == voteItem.Id).FirstOrDefault();
+
+            if (photoSpecialItem is not null)
+            {
+                photoSpecialItem.Voters.Add(voteItem.Name);
+                photoSpecialItem.Votes++;
+
+                _context.Entry(photoSpecialItem).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PhotoItemExists(photoSpecialItem.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+
+                return NoContent();
+            }
+            else
+            {
+                throw new Exception("No DB entry found for image");
+            }
         }
 
         #endregion

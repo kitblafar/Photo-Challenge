@@ -9,7 +9,7 @@ export default {
   <h3 class="subtitle">Challenge #{{challengeNumber}} - {{challengeString}}</h3>
   <h4 class="subtitle">from {{name}} </h4>
     <div>
-      <img v-bind:src="image" />
+      <img v-bind:src="image"  alt="challenge image"/>
     </div>
   </template>
 

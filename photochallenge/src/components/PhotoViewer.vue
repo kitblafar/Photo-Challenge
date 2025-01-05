@@ -3,8 +3,6 @@ import carousel from './Carousel.vue'
 </script>
 
 <script>
-import axios from 'axios'
-
 let images = [];
 let approvals = [];
 let messages = [];
@@ -39,7 +37,7 @@ export default {
     async getPhotos() {
       console.log("getting some images from ", document.getElementById('yourName').value);
 
-      await axios({
+      await this.$axios({
         method: "get",
         url: this.$serverAddress + String(document.getElementById('yourName').value),
         withCredentials: false,
@@ -72,52 +70,12 @@ export default {
 </script>
 
 <template>
-  <vue-particles id="tsparticles" @particles-loaded="particlesLoaded" :options="{
-    particles: {
-      color: {
-        value: '#ffffff'
-      },
-      move: {
-        direction: 'bottom',
-        enable: true,
-        outModes: 'out',
-        speed: 2
-      },
-      number: {
-        density: {
-          enable: true,
-          area: 800
-        },
-        value: 400
-      },
-      opacity: {
-        value: 0.7
-      },
-      shape: {
-        type: 'circle'
-      },
-      size: {
-        value: 10
-      },
-      wobble: {
-        enable: true,
-        distance: 10,
-        speed: 10
-      },
-      zIndex: {
-        value: {
-          min: 0,
-          max: 100
-        }
-      }
-    }
-  }"/>
   <div class="section">
     <h1 class="title">View Your Photos</h1>
 
 
     <div class="field">
-      <label class="label" for="fname">Name:</label>
+      <label class="label" >Name:</label>
       <div class="control">
         <input class="input is-danger" placeholder="Your Name" type="text" id="yourName">
       </div>
@@ -126,7 +84,7 @@ export default {
       <button class="button is-danger" value="save" @click="getPhotos">Get Photos</button>
     </div>
 
-    <carousel :key="componentKey" :images="images" :strings="strings" :approvals="approvals" :messages="messages"/>
+    <carousel :key="componentKey" :images="images" :strings="strings" :approvals="approvals" :messages="messages" :isView="true"/>
 
     <div class="block" id="failNotify" style="display:none">
       <div class="block ">

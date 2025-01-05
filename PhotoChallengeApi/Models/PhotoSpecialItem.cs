@@ -10,7 +10,7 @@ namespace PhotoChallengeAPI.Models
         public int Challenge { get; set; }
         public  string FilePath { get; set; }
 
-        public string[] Voters {get;set;}
+        public List<string> Voters {get;set;}
         public long Votes {get;set;}
 
     }

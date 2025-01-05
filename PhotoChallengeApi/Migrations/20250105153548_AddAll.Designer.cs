@@ -10,8 +10,8 @@ using PhotoChallengeAPI.Data;
 namespace PhotoChallengeApi.Migrations
 {
     [DbContext(typeof(PhotoChallengeAPIContext))]
-    [Migration("20241230192101_PhotoChallenge")]
-    partial class PhotoChallenge
+    [Migration("20250105153548_AddAll")]
+    partial class AddAll
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

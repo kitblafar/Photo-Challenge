@@ -1,5 +1,4 @@
 <script>
-import ImageDisplay from "@/components/ImageDisplay.vue";
 
 export default {
   name: 'Leaderboard',
@@ -10,10 +9,10 @@ export default {
 <template>
   <div class="content">
     <div v-if="isSpecial">
-      <h3 class="subtitle">The winning: {{this.title}}</h3>
-      <h4 class="subtitle">from {{winner}} </h4>
+      <h3 class="subtitle">The winning: {{ this.title }}</h3>
+      <h4 class="subtitle">from {{ winner }} </h4>
       <div>
-        <img v-bind:src="image" />
+        <img class="large" v-bind:src="image" alt="winning image"/>
       </div>
     </div>
     <div class="table-container">
@@ -24,13 +23,17 @@ export default {
         </tr>
         </thead>
         <tbody>
-        <tr v-if="this.isSpecial" v-for="item in this.items" >
-          <td>{{ item.position + 1}}</td>
+        <tr v-if="this.isSpecial" v-for="item in this.items">
+          <td>{{ item.position + 1 }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.votes }}</td>
-          <td>{{ item.voters }}</td>
+          <td>
+            <div style="flex-direction: row; display: flex;">
+            <div v-for="names in item.voters" style="width: fit-content; padding-right: 1em;">{{ names }}</div>
+            </div>
+          </td>
         </tr>
-        <tr v-else v-for="item in this.items"  >
+        <tr v-else v-for="item in this.items">
           <td>{{ item.position + 1 }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.challengeCount }}</td>

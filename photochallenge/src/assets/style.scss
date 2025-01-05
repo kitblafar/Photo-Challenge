@@ -1,11 +1,11 @@
 @use "bulma";
+
 $section-padding: 2.5em, 1em;
 
 .tabs li.is-active a {
   border-bottom-color: var(--bulma-success);
   color: var(--bulma-success);
 }
-
 
 h1 {
   font-weight: 500;
@@ -14,6 +14,14 @@ h1 {
   top: -10px;
 }
 
+@media only screen and (min-width: 1024px) {
+  img.large {
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+    height: 60vh;
+    margin: 10px auto; /* Center the image with some margin */
+    display: block; /* Ensure the image is treated as a block element */
+  }
+}
 h3 {
   font-size: 1.2rem;
 }

@@ -1,5 +1,4 @@
 <script>
-import axios from "axios";
 import Leaderboard from "@/components/Leaderboard.vue";
 
 
@@ -13,6 +12,7 @@ export default {
       leaderboardItems: [],
       headers: [],
       image: null,
+      noImage: true,
       winner: 'error',
       title: "error",
       isSpecial: false,
@@ -23,24 +23,29 @@ export default {
     }
   },
   mounted: function () {
+    // start the clock
     this.startCountdown();
+
+    // load the initial leaderboard
+    this.changePage(0);
   },
   methods: {
+    // get the axios promise
     async fetchData(url) {
       try {
-        const response = await axios.get(url);
+        const response = await this.$axios.get(url);
         return response.data;
       } catch (error) {
         console.error('Error fetching data:', error);
         throw error;
       }
     },
+    // change the active leaderboard and request the required information
     changePage(page) {
       const deleteElements = document.querySelectorAll('.tab');
       deleteElements[this.activePage].classList.remove('is-active');
       this.activePage = page;
       deleteElements[this.activePage].classList.add('is-active');
-      let url = "";
       this.isLoaded = false;
       if (this.activePage === 0) {
         this.isSpecial = false;
@@ -58,11 +63,14 @@ export default {
                 });
               }
               this.isLoaded = true;
+              this.noImage = false;
               console.log(this.leaderboardItems);
               this.forceRerender();
             })
             .catch((err) => {
+              console.log(err);
               this.isLoaded = true;
+              this.noImage = true;
               this.forceRerender();
             })
 
@@ -88,23 +96,31 @@ export default {
                     this.winner = res.name;
                     this.image = "data:image/png;base64," + res.image;
                     this.isLoaded = true;
+                    this.noImage = false;
+                    this.forceRerender();
                     console.log(this.leaderboardItems);
                   })
                   .catch((err) => {
+                    console.log(err);
+                    this.noImage = true;
                     this.isLoaded = true;
                   })
             })
             .catch((err) => {
+              console.log(err);
+              this.noImage = true;
               this.isLoaded = true;
             })
       }
-
-
     },
+
+    // start the countdown
     startCountdown() {
       this.updateCountdown();
       setInterval(this.updateCountdown, 1000);
     },
+
+    //update the countdown
     updateCountdown() {
       const now = new Date().getTime();
       const target = new Date(this.targetDate).getTime();
@@ -118,6 +134,8 @@ export default {
         this.countdown = {days: 0, hours: 0, minutes: 0, seconds: 0,};
       }
     },
+
+    // rerender the leaderboard
     forceRerender() {
       this.componentKey += 1;
     },
@@ -143,7 +161,10 @@ export default {
             @click="changePage(index+1)">{{ string }}</a></li>
       </ul>
     </div>
-    <div v-if="isLoaded">
+    <div v-if="noImage">
+      No images submitted yet.
+    </div>
+    <div v-else-if="isLoaded">
       <Leaderboard :title="this.title" :isSpecial="this.isSpecial" :key="this.componentKey"
                    :items="this.leaderboardItems"
                    :headers="this.headers" :image="this.image" :winner="this.winner"/>

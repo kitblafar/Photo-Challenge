@@ -1,8 +1,6 @@
 <script>
-import axios from 'axios'
 import ImageDisplay from "@/components/ImageDisplay.vue";
 import {nextTick} from "vue";
-
 
 // change the props of the approval image to see a different image
 export default {
@@ -92,7 +90,7 @@ export default {
     },
     async fetchData(url) {
       try {
-        const response = await axios.get(url);
+        const response = await this.$axios.get(url);
         return response.data;
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -118,7 +116,7 @@ export default {
       this.forceRerender();
     },
     updateData(approval, message) {
-      axios({
+      this.$axios({
         method: "patch",
         url: this.$serverAddress + this.hostImageInfo[this.activeIndex].id,
         data: {
@@ -195,7 +193,7 @@ export default {
                     :challengeString="this.strings[this.hostImageInfo[this.activeIndex].challenge]"/>
 
       <div class="field">
-        <label class="label" for="fname">Disapproval reason:</label>
+        <label class="label">Disapproval reason:</label>
         <div class="control">
           <input class="input is-danger" placeholder="I didn't like it" v-model="message" type="text" id="disapproval">
         </div>
@@ -212,7 +210,7 @@ export default {
       <div class="block">
         <div class="notification is-danger">
           <button class="delete" @click="deleteClick"></button>
-          You must give a reason if you dissapprove.
+          You must give a reason if you disapprove.
         </div>
       </div>
     </div>

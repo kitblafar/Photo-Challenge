@@ -1,12 +1,16 @@
-import { createMemoryHistory, createRouter } from 'vue-router'
+import {createMemoryHistory, createRouter} from 'vue-router'
 
 import PhotoEntry from './components/PhotoEntry.vue'
 import PhotoViewer from './components/PhotoViewer.vue'
 import HostArea from './components/HostArea.vue';
-import Login from  './components/Login.vue';
+import HostLogin from './components/HostLogin.vue';
 import Leaderboard from "@/components/Leaderboards.vue";
+import Voting from "@/components/Voting.vue";
+import MainPage from "@/components/MainPage.vue";
+import MainLogin from "@/components/MainLogin.vue";
+import photoEntry from "@/components/PhotoEntry.vue";
 
-const specialStrings = new Array("Best photo","Highest jump");
+const specialStrings = new Array("Best photo", "Highest jump");
 
 const challengeStrings = new Array("Take a picture with a principal engineer",
     "Wear on piece of a non-players clothing",
@@ -33,32 +37,42 @@ const challengeStrings = new Array("Take a picture with a principal engineer",
     "Be slapped by a non-player",
     "A super cute picture");
 
+
 const routes = [
+    {path: '/', name: 'Login', component: MainLogin},
     {
-        path: '/',
-        component: PhotoEntry,
-        props:{strings: challengeStrings, specialStrings: specialStrings},
-    },
-    {
-        path: '/view',
-        component: PhotoViewer,
-        props:{strings: challengeStrings},
-    },
-    {
-        path: '/host',
-        component: HostArea,
-        props:{strings: challengeStrings},
-    },
-    {
-        path: '/login',
-        component: Login,
-    },
-    {
-        path: '/leaderboard',
-        component: Leaderboard,
-        props:{specialStrings: specialStrings},
-    },
-]
+        path: '/main', component: MainPage, children: [
+            {
+                path: '',
+                component: PhotoEntry,
+                props: {strings: challengeStrings, specialStrings: specialStrings},
+            },
+
+            {
+                path: 'view',
+                component: PhotoViewer,
+                props: {strings: challengeStrings},
+            },
+            {
+                path: 'host',
+                component: HostArea,
+                props: {strings: challengeStrings},
+            },
+            {
+                path: 'hostlogin',
+                component: HostLogin,
+            },
+            {
+                path: 'leaderboard',
+                component: Leaderboard,
+                props: {specialStrings: specialStrings},
+            },
+            {
+                path: 'voting',
+                component: Voting,
+                props: {specialStrings: specialStrings},
+            }]
+    }];
 
 const router = createRouter({
     history: createMemoryHistory(),

@@ -1,9 +1,8 @@
 <script>
-import axios from "axios";
 
 export default {
 
-  name: 'Sumbitter',
+  name: 'Submitter',
   props: ['strings', 'special'],
   methods: {
     handleFileUpdate(event) {
@@ -37,7 +36,7 @@ export default {
         url = url + "/special";
       }
 
-      axios({
+      this.$axios({
         method: "post",
         url: url,
         data: data,
@@ -57,7 +56,7 @@ export default {
     }
   },
   data() {
-    return {formData: {challenge: 0, name: 'test', image: null}};
+    return {formData: {challenge: 0, name: 'YourName', image: null}};
   },
 }
 </script>
@@ -66,14 +65,14 @@ export default {
   <form class="form" @submit.prevent="submit">
 
     <div class="field">
-      <label class="label" for="fname">Name:</label>
+      <label class="label">Name:</label>
       <div class="control">
         <input class="input is-danger" placeholder="Your Name" type="text" v-model="formData.name">
       </div>
     </div>
 
     <div class="field">
-      <label class="label" for="lname">Challenge Number:</label>
+      <label class="label">Challenge Number:</label>
       <div class="control">
         <div class="select is-danger">
           <select v-model="formData.challenge">
