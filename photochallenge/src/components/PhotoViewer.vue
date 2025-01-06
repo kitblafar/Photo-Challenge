@@ -25,6 +25,17 @@ export default {
     };
   },
   methods: {
+    resetImages() {
+      for (let i = 1; i < 25; i++) {
+        images.push({
+          id: i, // the ID is the challenge
+          big: 'src/assets/logo.svg',
+          thumb: 'src/assets/logo.svg',
+        })
+        approvals.push(false);
+        messages.push("Image not submitted for this challenge");
+      }
+    },
     deleteClick() {
       const deleteElements = document.querySelectorAll('.notification');
       deleteElements.forEach(element => {
@@ -44,7 +55,7 @@ export default {
       })
           .then((res) => {
             console.log(res);
-
+            this.resetImages();
             // set the images for each of the challenges you received back
             for (let i = 0; i < res.data.length; i++) {
               console.log("Challenge number: " + res.data[i].challenge);
