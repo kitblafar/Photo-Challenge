@@ -1,4 +1,4 @@
-import {createApp} from 'vue'
+import {createApp, reactive} from 'vue'
 import router from './router.js'
 import App from './App.vue'
 
@@ -13,7 +13,9 @@ const app = createApp(App);
 
 app.config.globalProperties.$axios = axios;
 app.config.globalProperties.$serverAddress = 'http://localhost:3000/api/photochallengeapi/';
-app.config.globalProperties.$axiosPermitted = true;
+app.config.globalProperties.$axiosPermitted = reactive({
+    axiosPermitted: true
+});
 
 
 app.use(Particles, {
@@ -28,11 +30,13 @@ app.mount('#app');
 
 axios.interceptors.request.use(
     function (config) {
+        console.log("Axios turned on:");
+        console.log(app.config.globalProperties.$axiosPermitted.axiosPermitted);
         console.log('checking request');
-        console.log(app.config.globalProperties.$axiosPermitted);
+        console.log(config);
         // Check the request method
-        if (app.config.globalProperties.$axiosPermitted === false) {
-            return Promise.reject(new Error(`Request method ${config.method} is not allowed.`));
+        if (!app.config.globalProperties.$axiosPermitted.axiosPermitted) {
+            return Promise.reject(new Error(`Requests not allowed in demo mode`));
         }
 
         return config;

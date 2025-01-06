@@ -16,6 +16,8 @@ export default {
       });
     },
     submit() {
+      console.log("Axios turned on:");
+      console.log(this.$axiosPermitted.axiosPermitted);
       const bar = document.getElementById('progressBar');
       bar.value = "10";
       document.getElementById('failNotify').style.display = "none";

@@ -1,5 +1,6 @@
 <script>
 import {sha256} from 'js-sha256';
+import app from "@/App.vue";
 
 export default {
   name: 'MainLogin',
@@ -13,11 +14,14 @@ export default {
   },
   methods: {
     seeDemo(){
-      this.$axiosPermitted = false;
+      this.$axiosPermitted.axiosPermitted = false;
+      console.log("Axios turned on:");
+      console.log(this.$axiosPermitted.axiosPermitted);
       this.$router.push('/main');
     },
     async login() {
-      console.log(this.$axiosPermitted);
+      console.log("Axios turned on:");
+      console.log(this.$axiosPermitted.axiosPermitted);
       //make sure password not empty
       if (this.input.password !== "") {
         this.$axios({
@@ -29,7 +33,9 @@ export default {
             .then((res) => {
               if (res.data === true) {
                 console.log("authenticated");
-                this.$axiosPermitted = true;
+                this.$axiosPermitted.axiosPermitted = true;
+                console.log("Axios turned on:");
+                console.log(this.$axiosPermitted.axiosPermitted);
                 this.$router.push('/main');
               } else {
                 document.getElementById('failLoginNotify').style.display = "block";

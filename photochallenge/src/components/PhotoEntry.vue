@@ -6,6 +6,11 @@ export default {
   name: 'PhotoViewer',
   components: {Submitter},
   props: ['strings', 'specialStrings'],
+  mounted: function () {
+    console.log("Axios turned on:");
+    console.log(this.$axiosPermitted);
+    this.$axiosPermitted = false;
+  },
   methods: {
     changePage(page){
       const deleteElements = document.querySelectorAll('.tab');
