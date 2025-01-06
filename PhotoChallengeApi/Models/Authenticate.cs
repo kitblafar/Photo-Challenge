@@ -5,6 +5,6 @@ namespace PhotoChallengeAPI.Models
 
     public class Auth
     {
-        public string password {get; set;}
+        public required string password {get; set;}
     }
 }
