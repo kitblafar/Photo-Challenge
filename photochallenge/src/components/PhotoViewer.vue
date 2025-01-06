@@ -26,6 +26,9 @@ export default {
   },
   methods: {
     resetImages() {
+      images = [];
+      approvals = [];
+      messages = [];
       for (let i = 1; i < 25; i++) {
         images.push({
           id: i, // the ID is the challenge

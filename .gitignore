@@ -397,4 +397,6 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-/Photos
+PhotoChallengeApi/PhotoDB.db
+
+Photos
