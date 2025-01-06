@@ -70,9 +70,9 @@ export default {
     <section>
       <nav class="navbar is-success" id="main nav-bar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-          <a class="navbar-item" href="https://kittyfarren.dev/xmaschallenge">
+          <RouterLink to="/main" style="align-content: center">
             <img width="30" height="300" src="../assets/logo.svg" alt="logo"/>
-          </a>
+          </RouterLink>
           <button id="nav-toggle" :class="{ 'is-active': activator }" class="navbar-burger" @click="makeBurger"
                   aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
             <span aria-hidden="true"></span>
