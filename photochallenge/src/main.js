@@ -12,7 +12,7 @@ import axios from 'axios'
 const app = createApp(App);
 
 app.config.globalProperties.$axios = axios;
-app.config.globalProperties.$serverAddress = 'http://localhost:3000/api/photochallengeapi/';
+app.config.globalProperties.$serverAddress = 'http://kittyfarren.dev/api/api/photochallengeapi/';
 app.config.globalProperties.$axiosPermitted = reactive({
     axiosPermitted: true
 });
