@@ -14,6 +14,7 @@ builder.Services.AddCors(options =>
                       policy =>
                       {
                           policy.WithOrigins("https://kittyfarren.dev");
+                          policy.WithOrigins("http://127.0.0.1");
                           policy.WithMethods("GET", "POST", "PATCH", "DELETE", "OPTIONS");
                           policy.AllowAnyHeader();
                       });
