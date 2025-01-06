@@ -244,7 +244,7 @@ namespace PhotoChallengeAPI.Controllers
         [HttpPost("Authenticate/Host")]
         public async Task<bool> AuthenticateHostAsync(Auth authenticate)
         {
-            var authenticateItem = await _context.Authenticate.FindAsync(1);
+            var authenticateItem = await _context.Authenticate.FindAsync(1L);
             
             if (authenticateItem != null && authenticate.password == authenticateItem.Value)
             {
@@ -259,7 +259,7 @@ namespace PhotoChallengeAPI.Controllers
         [HttpPost("Authenticate")]
         public async Task<bool> AuthenticateAsync(Auth authenticate)
         {
-            var authenticateItem = await _context.Authenticate.FindAsync(2);
+            var authenticateItem = await _context.Authenticate.FindAsync(2L);
             
             if (authenticateItem != null && authenticate.password == authenticateItem.Value)
             {
