@@ -213,6 +213,7 @@ namespace PhotoChallengeAPI.Controllers
         {
             var item = await _context.PhotoSpecialItem.FindAsync(id);
 
+            if (item != null){
             string fullPath = Path.Combine(Directory.GetCurrentDirectory(), "Photos", "Special", item.FilePath);
 
             // if the entry exists in the database but not in the photos directory just leave it
@@ -227,6 +228,11 @@ namespace PhotoChallengeAPI.Controllers
             ReturnPhotoSpecialByteItem returnPhotoByteItem = new ReturnPhotoSpecialByteItem(item.Id, item.Name, item.Challenge, image, item.Voters, item.Votes);
 
             return returnPhotoByteItem;
+            }
+            else{
+                throw new Exception("File not found");
+            }
+
 
         }
 
@@ -236,10 +242,11 @@ namespace PhotoChallengeAPI.Controllers
         #region POST
 
         [HttpPost("Authenticate/Host")]
-        public bool AuthenticateHost(Auth authenticate)
+        public async Task<bool> AuthenticateHostAsync(Auth authenticate)
         {
-            // just a single password hash for now
-            if (authenticate.password == "8e5b57b7b620900e13dd84aae2390dea0eea199aa7f8d34f47b72824276e93f7")
+            var authenticateItem = await _context.Authenticate.FindAsync(1L);
+            
+            if (authenticateItem != null && authenticate.password == authenticateItem.Value)
             {
                 return true;
             }
@@ -250,10 +257,11 @@ namespace PhotoChallengeAPI.Controllers
         }
 
         [HttpPost("Authenticate")]
-        public bool Authenticate(Auth authenticate)
+        public async Task<bool> AuthenticateAsync(Auth authenticate)
         {
-            // just a single password hash for now 'BarCrawl2024'
-            if (authenticate.password == "682ac8eec9c50544a4833b71cc2db45a0c12498a1f34a6700431f108b6260abf")
+            var authenticateItem = await _context.Authenticate.FindAsync(2L);
+            
+            if (authenticateItem != null && authenticate.password == authenticateItem.Value)
             {
                 return true;
             }

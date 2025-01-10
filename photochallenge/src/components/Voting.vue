@@ -46,6 +46,7 @@ export default {
                 thumb: "data:image/png;base64," + res[i].image
               })
             }
+            this.noImages = false;
             if (res.length === 0){
               this.noImages = true;
               this.names.push("No images submitted yet");

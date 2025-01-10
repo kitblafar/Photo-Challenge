@@ -22,6 +22,8 @@ namespace PhotoChallengeAPI.Data
         public DbSet<PhotoItem> PhotoItem { get; set; } = default!;
         public DbSet<PhotoSpecialItem> PhotoSpecialItem { get; set; } = default!;
 
+        public DbSet<AuthenticateItem> Authenticate { get; set; } = default!;
+
     }
 }
 
