@@ -42,11 +42,18 @@ export default {
     },
     // change the active leaderboard and request the required information
     changePage(page) {
+      //clear the data
+      this.leaderboardItems = []
+      this.image = null
+      this.noImage = true
+      this.isLoaded = false;
+
+      //change the active tab
       const deleteElements = document.querySelectorAll('.tab');
       deleteElements[this.activePage].classList.remove('is-active');
       this.activePage = page;
       deleteElements[this.activePage].classList.add('is-active');
-      this.isLoaded = false;
+
       if (this.activePage === 0) {
         this.isSpecial = false;
         this.title = "Main Challenge";
